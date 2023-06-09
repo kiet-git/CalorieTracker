@@ -69,10 +69,6 @@ def search():
     else:
         if 'ori_food_name' in session:  # Check if 'ori_food_name' exists in session
             ori_food_name = session['ori_food_name']
-            if session['language'] == 'vi':
-                ori_food_name = GoogleTranslator(source='en', target='vi').translate(ori_food_name)
-            else:
-                ori_food_name = GoogleTranslator(source='vi', target='en').translate(ori_food_name)
         else:
             ori_food_name = ''  # Default value if 'ori_food_name' does not exist in session
 
@@ -110,6 +106,9 @@ def index():
             totals['carbs'] += food.carbs * quantity
             totals['fats'] += food.fats * quantity
             totals['calories'] += food.calories * quantity
+        totals['proteins'] = round(totals['proteins'], 3)
+        totals['carbs'] = round(totals['carbs'], 3)
+        totals['fats'] = round(totals['fats'], 3)
 
         log_dates.append({
             'log': log,
@@ -243,6 +242,9 @@ def view(log_id):
             'quantity': quantity
         })
 
+    totals['proteins'] = round(totals['proteins'], 3)
+    totals['carbs'] = round(totals['carbs'], 3)
+    totals['fats'] = round(totals['fats'], 3)
 
     return render_template('view.html', foods=foods, log=log, totals=totals, rendered_food=rendered_food, user=current_user)
 
