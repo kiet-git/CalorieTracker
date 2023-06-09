@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash, session
 from flask_login import login_required, current_user
 from . import db 
 from .models import Food, Log, log_food
 from datetime import datetime
 from sqlalchemy import update
 import requests, os
-# from .foods import *
+from deep_translator import GoogleTranslator
 
 main = Blueprint('main', __name__)
 
@@ -15,6 +15,11 @@ def search():
     foods_temp = Food.query.filter_by(user_id=current_user.id).all()
 
     food_name = request.form.get('food-name')
+    ori_food_name = food_name
+    if session['language'] == 'vi':
+        food_name =  GoogleTranslator(source='vi', target='en').translate(food_name)
+
+
     api_key = os.environ.get('API_KEY')  # Replace with your actual API key
     base_url = 'https://api.nal.usda.gov/fdc/v1/foods/search'
     limit = 5
@@ -52,7 +57,7 @@ def search():
                 'proteins': proteins
             })
 
-        return render_template('add.html', foods=foods_temp, food=None, user=current_user, searchResult=result, searchTerm = food_name)
+        return render_template('add.html', foods=foods_temp, food=None, user=current_user, searchResult=result, searchTerm = ori_food_name)
 
     return render_template('add.html', foods=foods_temp, food=None, user=current_user, searchResult=[], searchTerm = '')
 
