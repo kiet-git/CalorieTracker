@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://fonts.googleapis.com/css?family=Oswald|Ubuntu:400,700" rel="stylesheet">
+		<!-- Bootstrap CSS -->
+		<link
+		rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+		crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.7.0/css/flag-icons.min.css" integrity="sha512-s/Nra58/et4CDKSnhUiPrce+8M5tdK1Ps0+9dKe4I9JH/g0QGzsPAdf1fLeBsMTMG1zWMBsnzxvPgTOAFUHwLQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}" />
+        <title>{{ _('Calorie Counter') }} | {% block title %}{{ _('home')|capitalize }}{% endblock %}</title>
+	</head>
+	<body class="main-img"> 
+		<nav class="navbar navbar-expand-lg navbar-dark justify-content-between">
+			<div class="container">
+				<a class="navbar-brand mr-auto" href="{{ url_for('main.index') }}">
+					<span>{{ _('CALORIE COUNTER') }}</span>
+				</a>
+		
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+		
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto nav-pills nav-justified">
+						{% if user.is_authenticated %}
+						<li role="presentation" class="nav-item {% if request.path == url_for('main.index') %}active{% endif %}">
+							<a class="nav-link" href="{{ url_for('main.index') }}" title="Home">{{ _('home') }}</a>
+						</li>
+						<li role="presentation" class="nav-item {% if request.path == url_for('main.add') or request.path == url_for('main.search')  %}active{% endif %}">
+							<a class="nav-link" href="{{ url_for('main.add') }}" title="Add Food Item">{{ _('add food item') }}</a>
+						</li>
+						<li role="presentation">
+							<a class="nav-item nav-link" id="logout" href="/logout">{{ _('logout') }}</a>
+						</li>
+						{% else %}
+						<li role="presentation" class="nav-item {% if request.path == url_for('auth.login') %}active{% endif %}">
+							<a class="nav-item nav-link" id="login" href="/login">{{ _('login') }}</a>
+						</li>
+						<li role="presentation" class="nav-item {% if request.path == url_for('auth.sign_up') %}active{% endif %}">
+							<a class="nav-item nav-link" id="signUp" href="/sign-up">{{ _('sign up') }}</a>
+						</li>
+						{% endif %}
+						<!-- Language Switcher -->
+						<li class="nav-item dropdown">
+							{% if session['language'] == 'vi' %}
+							<a class="nav-item nav-link" href="{{ url_for('change_language', language_code='en') }}">
+								<i class="fi fi-us"></i>
+								English
+							</a>
+							{% else %}
+							<a class="nav-item nav-link" href="{{ url_for('change_language', language_code='vi') }}">
+								<i class="fi fi-vn"></i>
+								Tiếng Việt
+							</a>
+							{% endif %}
+						</li>
+						<!-- End Language Switcher -->
+					</ul>
+				</div>
+			</div>
+		</nav>		
+
+		<div class="container">		
+
+            <!-- Errors alert -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+            {% if messages %} {% for category, message in messages %} 
+            {% if category == 'error' %}
+            <div class="alert alert-danger alter-dismissable show" role="alert">
+                {{ _(message) }}
+                <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% else %}
+            <div class="alert alert-success alter-dismissable show" role="alert">
+                {{ _(message) }}
+                <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %} {% endfor %} {% endif %} {% endwith %}
+            
+            {% block content %} {% endblock %}
+
+			<footer>
+				<div class="row pad">
+					<div class="col-lg-12 text-center">
+						<span>{{ _('Calorie Counter App')}}</span>
+					</div>
+				</div>
+			</footer>
+
+		</div>
+
+		<script
+		src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"
+		></script>
+		<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"
+		></script>
+		<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"
+		></script>
+		{% block script %}{% endblock %}	
+	</body>
+</html>

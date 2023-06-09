@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Daily Details') }}{% endblock %}
+
+{% block content %}			
+
+<div class="row t20">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h3 class="lean-h text-black">
+					<i class="fa-solid fa-plus-circle"></i> {{ _('Add New Food To Log') }}
+				</h3>
+				<form action="{{ url_for('main.add_food_to_log', log_id=log.id) }}" method="POST" role="form">
+				
+					<div class="form-group">
+						<label>{{ _('Food Name') }}</label>
+						<div class="input-group">
+							<select class="form-control" name="food-select">    
+								{% for food in foods %}     
+								<option value='{{ food.id }}'>{{ food.name }}</option>
+								{% endfor %}
+
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label>{{ _('Quantity') }}</label>
+						<div class="input-group">
+							<input type="number" class="form-control" id="quantity" name="quantity" value="0" placeholder="{{ _('Quantity') }}">
+						</div>
+						
+					</div>
+					<span class="input-group-btn">
+						<button type="submit" class="btn btn-primary btn-block" id="add-btn">
+							<i class="fa-solid fa-plus"></i> {{ _('Add') }}
+						</button>
+					</span>
+				</form>	
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row t20">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h3 class="lean-h text-black">
+					<i class="fa-solid fa-calendar"></i> {{ log.date.strftime('%d/%m/%Y') }}
+				</h3>
+
+				<div class="row">
+					<div class="col-lg-3">
+						<h4 class="lean-h">
+							{{ _('Proteins') }}: &nbsp;<strong class="f25">{{ totals.proteins }}</strong>
+						</h4>
+					</div>
+					<div class="col-lg-3">
+						<h4 class="lean-h">
+							{{ _('Carbohydrates') }}: <strong class="f25">{{ totals.carbs }}</strong>
+						</h4>
+					</div>
+					<div class="col-lg-3">
+						<h4 class="lean-h">
+							{{ _('Fats') }}: <strong class="f25">{{ totals.fats }}</strong>
+						</h4>
+					</div>
+					<div class="col-lg-3">
+						<h4 class="lean-h">
+							{{ _('Calories') }}: <strong class="f25">{{ totals.calories }}</strong>
+						</h4>
+					</div>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-striped table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="width: 5%;">#</th>
+							<th>{{ _('Food Name') }}</th>
+							<th style="width: 10%;">{{ _('Proteins') }}</th>
+								<th style="width: 16%;">{{ _('Carbohydrates') }}</th>
+								<th style="width: 10%;">{{ _('Fats') }}</th>
+								<th style="width: 12%;">{{ _('Calories') }}</th>
+								<th style="width: 10%;">{{ _('Quantity') }}</th>
+								<th style="width: 15%;">{{ _('Unit') }}</th>
+								<th style="width: 12%;">{{ _('Actions') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for food in rendered_food %}
+							<tr>
+								<td>{{ loop.index }}</td>
+								<td>{{ food.food.name }}</td>
+								<td>{{ food.food.proteins }}</td>
+								<td>{{ food.food.carbs }}</td>
+								<td>{{ food.food.fats }}</th>
+								<td>{{ food.food.calories }}</td>
+								<td>{{ food.quantity }}</td>
+								<td>{{ food.food.quantity }} {{ _(food.food.unit)|capitalize }}</td>
+								<td>
+									<a href="{{ url_for('main.remove_food_from_log', log_id=log.id, food_id=food.food.id) }}" class="btn btn-danger btn-xs">
+										<i class="fa-solid fa-trash"></i> {{ _('Delete') }}
+									</a> 
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

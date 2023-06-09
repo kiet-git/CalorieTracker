@@ -1,0 +1,189 @@
+# Vietnamese translations for Flask app
+msgid ""
+msgstr ""
+"Language: vi\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "CALORIE COUNTER"
+msgstr "THEO DÕI KALO"
+
+msgid "home"
+msgstr "trang chủ"
+
+msgid "add food item"
+msgstr "thêm thức ăn"
+
+msgid "Daily Details"
+msgstr "Thông tin theo ngày"
+
+msgid "logout"
+msgstr "đăng xuất"
+
+msgid "login"
+msgstr "đăng nhập"
+
+msgid "sign up"
+msgstr "đăng ký"
+
+msgid "Add New Date"
+msgstr "Thêm Ngày Mới"
+
+msgid "Add New Food"
+msgstr "Thêm Món Mới"
+
+msgid "Add New Food To Log"
+msgstr "Thêm Món Vào Ngày"
+
+msgid "Add"
+msgstr "Thêm"
+
+msgid "Existing Records"
+msgstr "Ngày Đã Tạo"
+
+msgid "Delete"
+msgstr "Xoá"
+
+msgid "View"
+msgstr "Xem"
+
+msgid "Proteins"
+msgstr "Chất Đạm"
+
+msgid "Fats"
+msgstr "Chất Béo"
+
+msgid "Carbohydrates"
+msgstr "Tinh Bột"
+
+msgid "Calories"
+msgstr "Lượng Kalo"
+
+msgid "Existing Food Items"
+msgstr "Thức Ăn Đã Tạo"
+
+msgid "Quantity"
+msgstr "Số lượng"
+
+msgid "Unit"
+msgstr "Đơn vị"
+
+msgid "Actions"
+msgstr "Hành động"
+
+msgid "Food Name"
+msgstr "Tên Món"
+
+msgid "Edit"
+msgstr "Sửa"
+
+msgid "Delete"
+msgstr "Xoá"
+
+msgid "Submit"
+msgstr "Gửi"
+
+msgid "servings"
+msgstr "Khẩu phần"
+
+msgid "pieces"
+msgstr "Miếng"
+
+msgid "cups"
+msgstr "Ly"
+
+msgid "Calorie Counter App"
+msgstr "Ứng Dụng Theo Dõi Kalo"
+
+msgid "Email Address"
+msgstr "Địa chỉ Email"
+
+msgid "Enter email"
+msgstr "Nhập địa chỉ email"
+
+msgid "Password"
+msgstr "Mật khẩu"
+
+msgid "Enter password"
+msgstr "Nhập mật khẩu"
+
+msgid "No account,"
+msgstr "Chưa có tài khoản,"
+
+msgid "Sign Up"
+msgstr "Đăng ký"
+
+msgid "Email Address"
+msgstr "Địa chỉ Email"
+
+msgid "Enter email"
+msgstr "Nhập địa chỉ email"
+
+msgid "First Name"
+msgstr "Tên"
+
+msgid "Enter first name"
+msgstr "Nhập tên"
+
+msgid "Password"
+msgstr "Mật khẩu"
+
+msgid "Enter password"
+msgstr "Nhập mật khẩu"
+
+msgid "Password (Confirm)"
+msgstr "Xác nhận mật khẩu"
+
+msgid "Confirm password"
+msgstr "Xác nhận mật khẩu"
+
+msgid "Logged in successfully!"
+msgstr "Đăng nhập thành công!"
+
+msgid "Incorrect password, try again."
+msgstr "Mật khẩu không đúng, hãy thử lại."
+
+msgid "Email does not exist."
+msgstr "Email không tồn tại."
+
+msgid "Email already exists."
+msgstr "Email đã tồn tại."
+
+msgid "Email must be greater than 3 characters."
+msgstr "Email phải có ít nhất 4 ký tự."
+
+msgid "First name must be greater than 1 character."
+msgstr "Tên phải có ít nhất 2 ký tự."
+
+msgid "Passwords don't match."
+msgstr "Mật khẩu không khớp."
+
+msgid "Password must be at least 7 characters."
+msgstr "Mật khẩu phải có ít nhất 7 ký tự."
+
+msgid "Account created!"
+msgstr "Tài khoản đã được tạo!"
+
+msgid "Quantity must be greater than 0"
+msgstr "Số lượng phải lớn hơn 0"
+
+msgid "All fields must be filled!"
+msgstr "Cần điền đầy đủ thông tin vào tất cả các trường!"
+
+msgid "Date must be valid"
+msgstr "Ngày phải hợp lệ"
+
+msgid "Date"
+msgstr "Ngày"
+
+msgid "Value"
+msgstr "Hàm lượng"
+
+msgid "Daily Changes"
+msgstr "Thay Đổi Hằng Ngày"
+
+msgid "Search Food"
+msgstr "Tìm Kiếm Thức Ăn"
+
+msgid "Results"
+msgstr "Kết Quả"
