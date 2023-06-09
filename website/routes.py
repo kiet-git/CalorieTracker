@@ -9,58 +9,79 @@ from deep_translator import GoogleTranslator
 
 main = Blueprint('main', __name__)
 
-
-@main.route('/search', methods=['POST'])
+@main.route('/search', methods=['GET','POST'])
 def search():
     foods_temp = Food.query.filter_by(user_id=current_user.id).all()
 
-    food_name = request.form.get('food-name')
-    ori_food_name = food_name
-    if session['language'] == 'vi':
+    if request.method == 'POST':
+        food_name = request.form.get('food-name')
+
+        if food_name == '':
+            flash('Food name must be filled!', category='error')
+            return redirect(url_for('main.add'))
+
+        session['ori_food_name'] = food_name
+        ori_food_name = food_name
         food_name =  GoogleTranslator(source='vi', target='en').translate(food_name)
 
 
-    api_key = os.environ.get('API_KEY')  # Replace with your actual API key
-    base_url = 'https://api.nal.usda.gov/fdc/v1/foods/search'
-    limit = 5
+        api_key = os.environ.get('API_KEY')  # Replace with your actual API key
+        base_url = 'https://api.nal.usda.gov/fdc/v1/foods/search'
+        limit = 10
 
-    params = {
-        'api_key': api_key,
-        'query': food_name,
-        "dataType": [
-            "Foundation",
-            "Survey (FNDDS)"
-        ],
-        'pageSize': limit
-    }
+        params = {
+            'api_key': api_key,
+            'query': food_name,
+            "dataType": [
+                "Foundation",
+                "Survey (FNDDS)"
+            ],
+            'pageSize': limit
+        }
 
-    response = requests.get(base_url, params=params)
-    data = response.json()
+        response = requests.get(base_url, params=params)
+        data = response.json()
 
-    if 'foods' in data:
-        foods = data['foods']
-        result = []
+        if 'foods' in data:
+            foods = data['foods']
+            result = []
 
-        for food in foods:
-            nutrients = food['foodNutrients']
-            name = food['description']
-            fdcId = food['fdcId']
-            fats = next((n for n in nutrients if n['nutrientName'] == 'Total lipid (fat)'), {}).get('value')
-            carbs = next((n for n in nutrients if n['nutrientName'] == 'Carbohydrate, by difference'), {}).get('value')
-            proteins = next((n for n in nutrients if n['nutrientName'] == 'Protein'), {}).get('value')
+            for food in foods:
+                nutrients = food['foodNutrients']
+                name = food['description']
+                fdcId = food['fdcId']
+                fats = next((n for n in nutrients if n['nutrientName'] == 'Total lipid (fat)'), {}).get('value')
+                carbs = next((n for n in nutrients if n['nutrientName'] == 'Carbohydrate, by difference'), {}).get('value')
+                proteins = next((n for n in nutrients if n['nutrientName'] == 'Protein'), {}).get('value')
 
-            result.append({
-                'name': name,
-                'fdcId': fdcId,
-                'fats': fats,
-                'carbs': carbs,
-                'proteins': proteins
-            })
+                result.append({
+                    'name': name,
+                    'fdcId': fdcId,
+                    'fats': fats,
+                    'carbs': carbs,
+                    'proteins': proteins
+                })
 
-        return render_template('add.html', foods=foods_temp, food=None, user=current_user, searchResult=result, searchTerm = ori_food_name)
+            session['searchResult'] = result
+            return render_template('add.html', foods=foods_temp, food=None, user=current_user, searchResult=result, searchTerm = ori_food_name)
 
-    return render_template('add.html', foods=foods_temp, food=None, user=current_user, searchResult=[], searchTerm = '')
+        return render_template('add.html', foods=foods_temp, food=None, user=current_user, searchResult=[], searchTerm = '')
+    else:
+        if 'ori_food_name' in session:  # Check if 'ori_food_name' exists in session
+            ori_food_name = session['ori_food_name']
+            if session['language'] == 'vi':
+                ori_food_name = GoogleTranslator(source='en', target='vi').translate(ori_food_name)
+            else:
+                ori_food_name = GoogleTranslator(source='vi', target='en').translate(ori_food_name)
+        else:
+            ori_food_name = ''  # Default value if 'ori_food_name' does not exist in session
 
+        if 'searchResult' in session:  # Check if 'searchResult' exists in session
+            search_result = session['searchResult']
+        else:
+            search_result = []  # Default value if 'searchResult' does not exist in session
+
+        return render_template('add.html', foods=foods_temp, food=None, user=current_user, searchResult=search_result, searchTerm=ori_food_name)
 
 #show index page
 @main.route('/')
@@ -141,6 +162,10 @@ def add_post():
     if food_name == '' or proteins == '' or carbs == '' or fats == '':
         flash('All fields must be filled!', category='error')
         return redirect(url_for('main.add'))
+    
+    if Food.query.filter_by(name=food_name).first():
+        flash('Food name already exist!', category='error')
+        return redirect(request.referrer)
     
     if int(quantity) <= 0:
         flash('Quantity must be greater than 0', category='error')
@@ -268,3 +293,66 @@ def delete_log(log_id):
     db.session.delete(log)
     db.session.commit()
     return redirect(url_for('main.index'))
+
+@main.route('search_recipe', methods=["GET", "POST"])
+def search_recipe():
+    if request.method == "POST":
+        food_name = request.form.get('food-name')
+        min_calories = request.form.get('min-calories')
+        max_calories = request.form.get('max-calories')
+
+        if food_name == '':
+            flash('Food name must be filled!', category='error')
+            return redirect(url_for('main.search_recipe'))
+        
+        if int(min_calories) < 0 or int(max_calories) < 0:
+            flash('Calories must be 0 and above', category='error')
+            return redirect(url_for('main.search_recipe'))
+
+        if int(min_calories) > int(max_calories):
+            flash('Min calories must be larger than max calories', category='error')
+            return redirect(url_for('main.search_recipe'))
+
+        query_data = {
+            'food_name': food_name,
+            'min': min_calories,
+            'max': max_calories
+        }
+
+        food_name =  GoogleTranslator(source='vi', target='en').translate(food_name)
+
+        APP_ID = os.environ.get('APP_ID')
+        APP_KEY = os.environ.get('APP_KEY')
+        
+        api_url = f'https://api.edamam.com/api/recipes/v2?type=public&q={food_name}&app_id={APP_ID}&app_key={APP_KEY}&calories={min_calories}-{max_calories}&random=True'
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            data = response.json()
+            if 'hits' in data and len(data['hits']) > 0:
+                recipes = []
+                for hit in data['hits']:
+                    recipe = hit['recipe']
+                    recipe_data = {
+                        'name': recipe['label'],
+                        'image': recipe['image'],
+                        'url': recipe['url'],
+                        'proteins': round(recipe['totalNutrients']['PROCNT']['quantity'], 3),
+                        'carbs': round(recipe['totalNutrients']['CHOCDF']['quantity'], 3),
+                        'calories': round(recipe['calories'], 3),
+                        'fats': round(recipe['totalNutrients']['FAT']['quantity'], 3),
+                        'ingredientList': recipe['ingredientLines'],
+                        'labels': recipe['healthLabels']
+                    }
+                    recipes.append(recipe_data)
+                session['query_data'] = query_data
+                return render_template('recipe.html', user=current_user, recipes=recipes, data=query_data)
+        return render_template('recipe.html', user=current_user, recipes=[], data=query_data)
+    else:
+        query_data = ''
+        if 'query_data' in session:
+            query_data = session['query_data']
+            session['query_data'] = ''
+
+        return render_template('recipe.html', user=current_user, recipes=[], data=query_data)
+
+        

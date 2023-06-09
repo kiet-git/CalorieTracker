@@ -8,6 +8,9 @@ msgstr ""
 msgid "CALORIE COUNTER"
 msgstr "THEO DÕI KALO"
 
+msgid "Calorie Counter"
+msgstr "Theo Dõi Kalo"
+
 msgid "home"
 msgstr "trang chủ"
 
@@ -137,42 +140,6 @@ msgstr "Xác nhận mật khẩu"
 msgid "Confirm password"
 msgstr "Xác nhận mật khẩu"
 
-msgid "Logged in successfully!"
-msgstr "Đăng nhập thành công!"
-
-msgid "Incorrect password, try again."
-msgstr "Mật khẩu không đúng, hãy thử lại."
-
-msgid "Email does not exist."
-msgstr "Email không tồn tại."
-
-msgid "Email already exists."
-msgstr "Email đã tồn tại."
-
-msgid "Email must be greater than 3 characters."
-msgstr "Email phải có ít nhất 4 ký tự."
-
-msgid "First name must be greater than 1 character."
-msgstr "Tên phải có ít nhất 2 ký tự."
-
-msgid "Passwords don't match."
-msgstr "Mật khẩu không khớp."
-
-msgid "Password must be at least 7 characters."
-msgstr "Mật khẩu phải có ít nhất 7 ký tự."
-
-msgid "Account created!"
-msgstr "Tài khoản đã được tạo!"
-
-msgid "Quantity must be greater than 0"
-msgstr "Số lượng phải lớn hơn 0"
-
-msgid "All fields must be filled!"
-msgstr "Cần điền đầy đủ thông tin vào tất cả các trường!"
-
-msgid "Date must be valid"
-msgstr "Ngày phải hợp lệ"
-
 msgid "Date"
 msgstr "Ngày"
 
@@ -187,3 +154,16 @@ msgstr "Tìm Kiếm Thức Ăn"
 
 msgid "Results"
 msgstr "Kết Quả"
+
+msgid "search recipe"
+msgstr "tìm thực đơn"
+
+msgid "Search Recipe"
+msgstr "Tìm Kiếm Thực Đơn"
+
+msgid "Min Calories"
+msgstr "Lượng Kalo Tối Thiểu"
+
+msgid "Max Calories"
+msgstr "Lượng Kalo Tối Đa"
+

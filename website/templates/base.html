@@ -37,6 +37,9 @@
 						<li role="presentation" class="nav-item {% if request.path == url_for('main.add') or request.path == url_for('main.search')  %}active{% endif %}">
 							<a class="nav-link" href="{{ url_for('main.add') }}" title="Add Food Item">{{ _('add food item') }}</a>
 						</li>
+						<li role="presentation" class="nav-item {% if request.path == url_for('main.search_recipe') %}active{% endif %}">
+							<a class="nav-link" href="{{ url_for('main.search_recipe') }}" title="Search Recipe">{{ _('search recipe') }}</a>
+						</li>
 						<li role="presentation">
 							<a class="nav-item nav-link" id="logout" href="/logout">{{ _('logout') }}</a>
 						</li>
@@ -75,14 +78,14 @@
             {% if messages %} {% for category, message in messages %} 
             {% if category == 'error' %}
             <div class="alert alert-danger alter-dismissable show" role="alert">
-                {{ _(message) }}
+                {{ translate(message) }}
                 <button type="button" class="close" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             {% else %}
             <div class="alert alert-success alter-dismissable show" role="alert">
-                {{ _(message) }}
+                {{ translate(message) }}
                 <button type="button" class="close" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -93,7 +96,7 @@
 
 			<footer>
 				<div class="row pad">
-					<div class="col-lg-12 text-center">
+					<div class="col-lg-12 text-center text-white">
 						<span>{{ _('Calorie Counter App')}}</span>
 					</div>
 				</div>

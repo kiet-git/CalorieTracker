@@ -55,7 +55,9 @@ def create_app():
         else:
             session['language'] = 'en'
         if request.referrer.endswith('/search'):
-            return redirect(url_for('main.add'))
+            return redirect(url_for('main.search'))
+        if request.referrer.endswith('/search_recipe'):
+            return redirect(url_for('main.search_recipe'))
         
         return redirect(request.referrer or url_for('main.index'))
 
