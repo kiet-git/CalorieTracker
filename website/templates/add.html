@@ -181,7 +181,7 @@
 						{% for food in foods %}
 						<tr>
 								<td>{{ food.id }}</td>
-								<td>{{ food.name }}</td>
+								<td>{{ translate(food.name)|capitalize }}</td>
 								<td>{{ food.proteins }}</td>
 								<td>{{ food.carbs }}</td>
 								<td>{{ food.fats }}</td>

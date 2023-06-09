@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 from flask_babel import Babel, gettext as _
+from deep_translator import GoogleTranslator
 
 db = SQLAlchemy()
 DB_NAME = "db.sqlite3"
@@ -32,8 +33,20 @@ def create_app():
     def get_locale():
         return session.get('language', 'en')
     
+    
     babel = Babel(app)
     babel.init_app(app, locale_selector=get_locale)
+
+
+    def translating(text):
+        if session['language'] == 'vi':
+            translation = GoogleTranslator(source='en', target='vi').translate(text)
+        else:
+            translation = text
+        
+        return translation
+
+    app.jinja_env.globals.update(translate=translating)
 
     @app.route('/change_language')
     def change_language():

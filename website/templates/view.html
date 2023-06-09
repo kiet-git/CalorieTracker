@@ -18,7 +18,7 @@
 						<div class="input-group">
 							<select class="form-control" name="food-select">    
 								{% for food in foods %}     
-								<option value='{{ food.id }}'>{{ food.name }}</option>
+								<option value='{{ food.id }}'>{{ translate(food.name)|capitalize }}</option>
 								{% endfor %}
 
 							</select>
@@ -93,7 +93,7 @@
 							{% for food in rendered_food %}
 							<tr>
 								<td>{{ loop.index }}</td>
-								<td>{{ food.food.name }}</td>
+								<td>{{ translate(food.food.name)|capitalize }}</td>
 								<td>{{ food.food.proteins }}</td>
 								<td>{{ food.food.carbs }}</td>
 								<td>{{ food.food.fats }}</th>
