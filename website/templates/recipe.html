@@ -50,7 +50,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<h3 class="lean-h text-black">
-					<i class="fa-solid fa-list"></i> {{ _('Results') }} ({% if recipes|count > 0 %}10{% else %}0{% endif %})
+					<i class="fa-solid fa-list"></i> {{ _('Results') }} ({% if recipes|count > 10 %}10{% else %}{{recipes|count}}{% endif %})
 				</h3>
 			</div>
 		</div>
@@ -63,10 +63,10 @@
 			<img class="card-img-top" src="{{ recipe.image }}" alt="Card image cap">
 			<div class="card-body">
 				<h5 class="card-title">{{ translate(recipe.name)|capitalize }}</h5>
-				<p class="card-text"><strong>{{ _('proteins')|capitalize }}:</strong> {{ recipe.proteins }} Grams</p>
-				<p class="card-text"><strong>{{ _('carbohydrates')|capitalize }}:</strong> {{ recipe.carbs }} Grams</p>
-				<p class="card-text"><strong>{{ _('fats')|capitalize }}:</strong> {{ recipe.fats }} Grams</p>
-				<p class="card-text"><strong>{{ _('calories')|capitalize }}:</strong> {{ recipe.calories }}</p>
+				<p class="card-text"><strong>{{ _('Proteins') }}:</strong> {{ recipe.proteins }} Grams</p>
+				<p class="card-text"><strong>{{ _('Carbohydrates') }}:</strong> {{ recipe.carbs }} Grams</p>
+				<p class="card-text"><strong>{{ _('Fats') }}:</strong> {{ recipe.fats }} Grams</p>
+				<p class="card-text"><strong>{{ _('Total Calories') }}:</strong> {{ recipe.calories }}</p>
 				<ul class="list-group mb-3">
 					<p><strong>{{ _('ingredients')|capitalize }}</strong></p>
 					{% for ingredient in recipe.ingredientList %}
@@ -82,7 +82,7 @@
 			<div class="card-footer">
 				<a href="{{ recipe.url }}" class="btn btn-primary btn-block mt-auto" target="_blank">
 					<i class="fa fa-arrow-right" aria-hidden="true"></i>
-					To Recipe
+					{{ _('To Recipe') }}
 				</a>
 			</div>
 		</div>

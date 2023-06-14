@@ -17,6 +17,10 @@ def create_app():
     app.config['BABEL_SUPPORTED_LANGUAGES'] = ['en', 'vi']
     app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 
+    @app.before_first_request
+    def setup_session():
+        session['language'] = 'en'
+
     db.init_app(app)
 
     from .routes import main
@@ -36,7 +40,6 @@ def create_app():
     
     babel = Babel(app)
     babel.init_app(app, locale_selector=get_locale)
-
 
     def translating(text):
         if session['language'] == 'vi':

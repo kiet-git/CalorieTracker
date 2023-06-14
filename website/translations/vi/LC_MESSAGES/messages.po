@@ -167,3 +167,8 @@ msgstr "Lượng Kalo Tối Thiểu"
 msgid "Max Calories"
 msgstr "Lượng Kalo Tối Đa"
 
+msgid "To Recipe"
+msgstr "Truy Cập Thực Đơn"
+
+msgid "ingredients"
+msgstr "nguyên liệu"

@@ -10,6 +10,7 @@ from deep_translator import GoogleTranslator
 main = Blueprint('main', __name__)
 
 @main.route('/search', methods=['GET','POST'])
+@login_required
 def search():
     foods_temp = Food.query.filter_by(user_id=current_user.id).all()
 
@@ -297,6 +298,7 @@ def delete_log(log_id):
     return redirect(url_for('main.index'))
 
 @main.route('search_recipe', methods=["GET", "POST"])
+@login_required
 def search_recipe():
     if request.method == "POST":
         food_name = request.form.get('food-name')
@@ -326,7 +328,7 @@ def search_recipe():
         APP_ID = os.environ.get('APP_ID')
         APP_KEY = os.environ.get('APP_KEY')
         
-        api_url = f'https://api.edamam.com/api/recipes/v2?type=public&q={food_name}&app_id={APP_ID}&app_key={APP_KEY}&calories={min_calories}-{max_calories}&random=True'
+        api_url = f'https://api.edamam.com/api/recipes/v2?type=public&q={food_name}&app_id={APP_ID}&app_key={APP_KEY}&random=True'
         response = requests.get(api_url)
         if response.status_code == 200:
             data = response.json()
@@ -334,18 +336,19 @@ def search_recipe():
                 recipes = []
                 for hit in data['hits']:
                     recipe = hit['recipe']
-                    recipe_data = {
-                        'name': recipe['label'],
-                        'image': recipe['image'],
-                        'url': recipe['url'],
-                        'proteins': round(recipe['totalNutrients']['PROCNT']['quantity'], 3),
-                        'carbs': round(recipe['totalNutrients']['CHOCDF']['quantity'], 3),
-                        'calories': round(recipe['calories'], 3),
-                        'fats': round(recipe['totalNutrients']['FAT']['quantity'], 3),
-                        'ingredientList': recipe['ingredientLines'],
-                        'labels': recipe['healthLabels']
-                    }
-                    recipes.append(recipe_data)
+                    if recipe['calories'] >= int(min_calories) and recipe['calories'] <= int(max_calories):
+                        recipe_data = {
+                            'name': recipe['label'],
+                            'image': recipe['image'],
+                            'url': recipe['url'],
+                            'proteins': round(recipe['totalNutrients']['PROCNT']['quantity'], 3),
+                            'carbs': round(recipe['totalNutrients']['CHOCDF']['quantity'], 3),
+                            'calories': round(recipe['calories'], 3),
+                            'fats': round(recipe['totalNutrients']['FAT']['quantity'], 3),
+                            'ingredientList': recipe['ingredientLines'],
+                            'labels': recipe['healthLabels']
+                        }
+                        recipes.append(recipe_data)
                 session['query_data'] = query_data
                 return render_template('recipe.html', user=current_user, recipes=recipes, data=query_data)
         return render_template('recipe.html', user=current_user, recipes=[], data=query_data)
