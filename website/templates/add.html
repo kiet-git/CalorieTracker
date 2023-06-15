@@ -166,7 +166,7 @@
 				<table class="table table-striped table-hover table-bordered">
 					<thead>
 						<tr>
-							<th style="width: 5%;">ID</th>
+							<th style="width: 5%;">#</th>
 							<th>{{ _('Food Name') }}</th>
 							<th style="width: 10%;">{{ _('Proteins') }}</th>
 							<th style="width: 13%;">{{ _('Carbohydrates') }}</th>
@@ -180,7 +180,7 @@
 					<tbody>
 						{% for food in foods %}
 						<tr>
-								<td>{{ food.id }}</td>
+								<td>{{ loop.index }}</td>
 								<td>{{ translate(food.name)|capitalize }}</td>
 								<td>{{ food.proteins }}</td>
 								<td>{{ food.carbs }}</td>
