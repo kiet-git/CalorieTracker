@@ -110,6 +110,7 @@ def index():
         totals['proteins'] = round(totals['proteins'], 3)
         totals['carbs'] = round(totals['carbs'], 3)
         totals['fats'] = round(totals['fats'], 3)
+        totals['calories'] = round(totals['calories'], 3)
 
         log_dates.append({
             'log': log,
@@ -246,6 +247,7 @@ def view(log_id):
     totals['proteins'] = round(totals['proteins'], 3)
     totals['carbs'] = round(totals['carbs'], 3)
     totals['fats'] = round(totals['fats'], 3)
+    totals['calories'] = round(totals['calories'], 3)
 
     return render_template('view.html', foods=foods, log=log, totals=totals, rendered_food=rendered_food, user=current_user)
 
