@@ -6,10 +6,10 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "CALORIE COUNTER"
-msgstr "THEO DÕI KALO"
+msgstr "THEO DÕI CALO"
 
 msgid "Calorie Counter"
-msgstr "Theo Dõi Kalo"
+msgstr "Theo Dõi Calo"
 
 msgid "home"
 msgstr "trang chủ"
@@ -60,7 +60,7 @@ msgid "Carbohydrates"
 msgstr "Tinh Bột"
 
 msgid "Calories"
-msgstr "Lượng Kalo"
+msgstr "Lượng Calo"
 
 msgid "Existing Food Items"
 msgstr "Thức Ăn Đã Tạo"
@@ -96,7 +96,7 @@ msgid "cups"
 msgstr "Ly"
 
 msgid "Calorie Counter App"
-msgstr "Ứng Dụng Theo Dõi Kalo"
+msgstr "Ứng Dụng Theo Dõi Calo"
 
 msgid "Email Address"
 msgstr "Địa chỉ Email"
@@ -162,13 +162,16 @@ msgid "Search Recipe"
 msgstr "Tìm Kiếm Thực Đơn"
 
 msgid "Min Calories"
-msgstr "Lượng Kalo Tối Thiểu"
+msgstr "Lượng Calo Tối Thiểu"
 
 msgid "Max Calories"
-msgstr "Lượng Kalo Tối Đa"
+msgstr "Lượng Calo Tối Đa"
 
 msgid "To Recipe"
 msgstr "Truy Cập Thực Đơn"
 
 msgid "ingredients"
 msgstr "nguyên liệu"
+
+msgid "Nutrients Chart"
+msgstr "Biểu Đồ Dinh Dưỡng"

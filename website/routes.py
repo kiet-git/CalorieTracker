@@ -177,7 +177,10 @@ def add_post():
 
     if food_id:
         food = Food.query.get(food_id)
-        food.name = food_name
+        if session['language'] == 'vi':
+            food.name = GoogleTranslator(source='vi', target='en').translate(food_name)
+        else: 
+            food.name = food_name
         food.proteins = proteins
         food.carbs = carbs
         food.fats = fats
@@ -212,6 +215,9 @@ def delete_food(food_id):
 @main.route('/edit_food/<int:food_id>')
 def edit_food(food_id):
     food = Food.query.get(food_id)
+    if session['language'] == 'vi':
+        food.name = GoogleTranslator(source='en', target='vi').translate(food.name)
+
     foods = Food.query.filter_by(user_id=current_user.id).all()
     return render_template('add.html', food=food, foods=foods, user=current_user)
 
@@ -363,3 +369,41 @@ def search_recipe():
         return render_template('recipe.html', user=current_user, recipes=[], data=query_data)
 
         
+@main.route('/get_food_suggestions', methods=['POST'])
+@login_required
+def get_food_suggestions():
+    food_name = request.form.get('inputValue')
+    
+    food_name =  GoogleTranslator(source='vi', target='en').translate(food_name)
+
+    api_key = os.environ.get('API_KEY')  # Replace with your actual API key
+    base_url = 'https://api.nal.usda.gov/fdc/v1/foods/search'
+    limit = 10
+
+    params = {
+        'api_key': api_key,
+        'query': food_name,
+        "dataType": [
+            "Foundation",
+            "Survey (FNDDS)"
+        ],
+        'pageSize': limit
+    }
+
+    response = requests.get(base_url, params=params)
+    data = response.json()
+
+    if 'foods' in data:
+        foods = data['foods']
+        suggestions = []
+
+        for food in foods:
+            if session['language'] == 'vi':
+                name = GoogleTranslator(source='en', target='vi').translate(food['description'])
+            else:
+                name = food['description']
+            suggestions.append(name)
+
+        return jsonify({'suggestions': suggestions})
+
+    return jsonify({'suggestions': []})

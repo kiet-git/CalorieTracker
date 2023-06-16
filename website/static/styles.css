@@ -173,12 +173,16 @@ body {
 }
 
 
-#chart-container {
+.chart-container {
 	margin-bottom: 20px;
 	overflow: hidden;
 	background-color: rgba(0, 0, 0, 0.2);
 	padding: 15px;
 	border-radius:4px;
+}
+
+.chart-container div {
+	width: 100%;
 }
   
 #myChart {
@@ -191,8 +195,15 @@ body {
 
 
 @media (min-width: 992px) { 
-	#myChart {
+	#myChart{
 		width: 100% !important;
+	}
+	#nutrition-chart {
+		width: 100% !important;
+		height: 100% !important;
+	}
+	.chart-container div {
+		width: 50%;
 	}
 }
 

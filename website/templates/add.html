@@ -10,12 +10,13 @@
 				<h3 class="lean-h text-black">
 					<i class="fa-solid fa-search"></i> {{ _('Search Food') }}
 				</h3>
-				<form action="{{ url_for('main.search') }}" method="POST" role="form">	
+				<form action="{{ url_for('main.search') }}" method="POST" role="form">    
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="form-group">
 								<label for="food-name">{{ _('Food Name') }}</label>
-								<input type="text" class="form-control" id="search-name" name="food-name" value="{{ searchTerm }}" placeholder="{{ _('Food Name') }}" autofocus>
+								<input type="text" class="form-control" id="search-name" name="food-name" value="{{ searchTerm }}" placeholder="{{ _('Food Name') }}" autofocus list="suggestions">
+								<datalist id="suggestions"></datalist>
 							</div>
 						</div>
 						<div class="col-lg-12">
@@ -25,7 +26,7 @@
 								</button>
 							</div>
 						</div>
-					</div>	
+					</div>    
 				</form>
 				
 				<h4 class="lean-h text-black">
@@ -205,4 +206,38 @@
 	</div>
 </div>
 
+{% endblock %}
+{% block script %}
+<script>
+$(document).ready(function() {
+    // Function to fetch and display autocomplete suggestions
+    function fetchSuggestions(inputValue) {
+        $.ajax({
+            url: '/get_food_suggestions',  // Endpoint to fetch suggestions from the server
+            method: 'POST',
+            data: {inputValue: inputValue},
+            success: function(response) {
+                var suggestions = response.suggestions;
+                var datalist = $('#suggestions');
+
+                // Clear previous suggestions
+                datalist.empty();
+
+                // Add new suggestions to the datalist
+                for (var i = 0; i < suggestions.length; i++) {
+                    var suggestion = suggestions[i];
+                    datalist.append('<option value="' + suggestion + '">');
+					console.log(suggestion)
+                }
+            }
+        });
+    }
+
+    // Event listener for input field changes
+    $('#search-name').on('input', function() {
+        var inputValue = $(this).val();
+        fetchSuggestions(inputValue);
+    });
+});
+</script>
 {% endblock %}

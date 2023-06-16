@@ -3,6 +3,18 @@
 {% block title %}{{ _('Daily Details') }}{% endblock %}
 
 {% block content %}			
+<div class="row t20">
+	<div class="col-lg-12">
+		<div class="chart-container">
+			<h3 class="lean-h text-white">
+				<i class="fa-solid fa-pie-chart"></i> {{ _('Nutrients Chart') }}
+			</h3>
+			<div class="mx-auto">
+				<canvas id="nutrition-chart"></canvas>
+			</div>	
+		</div>
+	</div>
+</div>
 
 <div class="row t20">
 	<div class="col-lg-12">
@@ -114,4 +126,40 @@
 		</div>
 	</div>
 </div>
+
+
+
 {% endblock %}
+
+{% block script %}
+<script>
+    var ctx = document.getElementById('nutrition-chart').getContext('2d');
+    var chartData = {
+        labels: ['{{_('Proteins')}}', '{{_('Fats')}}', '{{_('Carbohydrates')}}'],
+        datasets: [{
+            data: [
+                {{ totals['proteins'] }},
+                {{ totals['carbs'] }},
+				{{ totals['fats'] }}
+            ],
+            backgroundColor: ['red', 'green', 'blue']
+        }]
+    };
+    var chartOptions = {
+        responsive: true,
+		plugins: {
+			legend: {
+				labels: {
+					usePointStyle: true,
+					color: 'white'
+				},
+			}
+		}
+    };
+    var nutritionChart = new Chart(ctx, {
+        type: 'pie',
+        data: chartData,
+        options: chartOptions
+    });
+</script>
+{% endblock %}	
