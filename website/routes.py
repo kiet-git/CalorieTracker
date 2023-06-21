@@ -317,6 +317,12 @@ def search_recipe():
             flash('Food name must be filled!', category='error')
             return redirect(url_for('main.search_recipe'))
         
+        if min_calories == '':
+            min_calories = 0
+
+        if max_calories == '':
+            max_calories = 0
+
         if int(min_calories) < 0 or int(max_calories) < 0:
             flash('Calories must be 0 and above', category='error')
             return redirect(url_for('main.search_recipe'))
