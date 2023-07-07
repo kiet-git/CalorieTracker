@@ -84,6 +84,9 @@ def search():
 @main.route('/')
 @login_required
 def index():
+    if 'language' not in session:
+        session['language'] = 'en'
+
     logs = Log.query.filter_by(user_id=current_user.id).order_by(Log.date.desc()).all()
 
     log_dates = []

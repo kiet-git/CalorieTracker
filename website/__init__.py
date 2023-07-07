@@ -17,10 +17,6 @@ def create_app():
     app.config['BABEL_SUPPORTED_LANGUAGES'] = ['en', 'vi']
     app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 
-    @app.before_first_request
-    def setup_session():
-        session['language'] = 'en'
-
     db.init_app(app)
 
     from .routes import main
@@ -28,7 +24,7 @@ def create_app():
 
     app.register_blueprint(main, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-
+    
     from .models import User
 
     with app.app_context():
