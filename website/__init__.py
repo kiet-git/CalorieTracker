@@ -50,7 +50,7 @@ def create_app():
     @app.route('/change_language')
     def change_language():
         if session['language'] == 'en':
-            session['language']  = 'vi'
+            session['language'] = 'vi'
         else:
             session['language'] = 'en'
         if request.referrer.endswith('/search'):
