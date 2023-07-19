@@ -1,5 +1,5 @@
 .env
 .flaskenv
 __pycache__
-db.sqlite3
+instance/db.sqlite3
 env/
