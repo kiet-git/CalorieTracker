@@ -38,6 +38,9 @@ def create_app():
     babel.init_app(app, locale_selector=get_locale)
 
     def translating(text):
+        if 'language' not in session:
+            session['language'] = 'en'
+
         if session['language'] == 'vi':
             translation = GoogleTranslator(source='en', target='vi').translate(text)
         else:
