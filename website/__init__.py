@@ -40,7 +40,7 @@ def create_app():
     def translating(text):
         if 'language' not in session:
             session['language'] = 'en'
-
+            
         if session['language'] == 'vi':
             translation = GoogleTranslator(source='en', target='vi').translate(text)
         else:
@@ -53,7 +53,7 @@ def create_app():
     @app.route('/change_language')
     def change_language():
         if session['language'] == 'en':
-            session['language']  = 'vi'
+            session['language'] = 'vi'
         else:
             session['language'] = 'en'
         if request.referrer.endswith('/search'):
