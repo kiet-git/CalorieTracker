@@ -164,10 +164,6 @@ def add_post():
         flash('All fields must be filled!', category='error')
         return redirect(url_for('main.add'))
     
-    if Food.query.filter_by(name=food_name).first():
-        flash('Food name already exist!', category='error')
-        return redirect(request.referrer)
-    
     if int(quantity) <= 0:
         flash('Quantity must be greater than 0', category='error')
         return redirect(url_for('main.add'))
@@ -187,6 +183,10 @@ def add_post():
         food.quantity = quantity
         food.unit = unit
     else: 
+        if Food.query.filter_by(name=food_name).first():
+            flash('Food name already exist!', category='error')
+            return redirect(request.referrer)
+        
         new_food = Food(
             name=food_name,
             proteins=proteins,
